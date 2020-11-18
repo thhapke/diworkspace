@@ -1,0 +1,686 @@
+{
+    "properties": {},
+    "iconsrc": "scrapy.svg",
+    "description": "Scrape Websites",
+    "processes": {
+        "readfile1": {
+            "component": "com.sap.file.read",
+            "metadata": {
+                "label": "Spider.py",
+                "x": 17,
+                "y": 12,
+                "height": 80,
+                "width": 120,
+                "config": {
+                    "mode": "Once",
+                    "connection": {
+                        "configurationType": "Connection Management",
+                        "connectionID": "S3_THH"
+                    },
+                    "path": "/textanalysis/onlinemedia/scrapy_files/onlinemedia/spiders/spider.py"
+                }
+            }
+        },
+        "readfile2": {
+            "component": "com.sap.file.read",
+            "metadata": {
+                "label": "pipelines.py",
+                "x": 17,
+                "y": 132,
+                "height": 80,
+                "width": 120,
+                "config": {
+                    "mode": "Once",
+                    "connection": {
+                        "configurationType": "Connection Management",
+                        "connectionID": "S3_THH"
+                    },
+                    "path": "/textanalysis/onlinemedia/scrapy_files/onlinemedia/pipelines.py"
+                }
+            }
+        },
+        "readfile3": {
+            "component": "com.sap.file.read",
+            "metadata": {
+                "label": "items.py",
+                "x": 17,
+                "y": 252,
+                "height": 80,
+                "width": 120,
+                "config": {
+                    "mode": "Once",
+                    "connection": {
+                        "configurationType": "Connection Management",
+                        "connectionID": "S3_THH"
+                    },
+                    "path": "/textanalysis/onlinemedia/scrapy_files/onlinemedia/items.py"
+                }
+            }
+        },
+        "readfile4": {
+            "component": "com.sap.file.read",
+            "metadata": {
+                "label": "middleware.py",
+                "x": 17,
+                "y": 372,
+                "height": 80,
+                "width": 120,
+                "config": {
+                    "mode": "Once",
+                    "connection": {
+                        "configurationType": "Connection Management",
+                        "connectionID": "S3_THH"
+                    },
+                    "path": "/textanalysis/onlinemedia/scrapy_files/onlinemedia/middlewares.py"
+                }
+            }
+        },
+        "readfile5": {
+            "component": "com.sap.file.read",
+            "metadata": {
+                "label": "setting.py",
+                "x": 17,
+                "y": 492,
+                "height": 80,
+                "width": 120,
+                "config": {
+                    "mode": "Once",
+                    "connection": {
+                        "configurationType": "Connection Management",
+                        "connectionID": "S3_THH"
+                    },
+                    "path": "/textanalysis/onlinemedia/scrapy_files/onlinemedia/settings.py"
+                }
+            }
+        },
+        "wiretap1": {
+            "component": "com.sap.util.wiretap",
+            "metadata": {
+                "label": "Wiretap",
+                "x": 1624.9999923706055,
+                "y": 192,
+                "height": 80,
+                "width": 120,
+                "ui": "dynpath",
+                "config": {}
+            }
+        },
+        "12multiplexer1": {
+            "component": "com.sap.system.multiplexer.1-2",
+            "metadata": {
+                "label": "1:2 Multiplexer",
+                "x": 402.99999809265137,
+                "y": 266.4999997615814,
+                "height": 80,
+                "width": 120,
+                "extensible": true,
+                "config": {},
+                "additionalinports": [
+                    {
+                        "name": "input1",
+                        "type": "message.DataFrame"
+                    }
+                ]
+            }
+        },
+        "writefile1": {
+            "component": "com.sap.file.write",
+            "metadata": {
+                "label": "online_docs",
+                "x": 1037.9999952316284,
+                "y": 223.49999976158142,
+                "height": 80,
+                "width": 120,
+                "config": {
+                    "connection": {
+                        "configurationType": "Connection Management",
+                        "connectionID": "S3_THH"
+                    },
+                    "pathMode": "Static with placeholders",
+                    "path": "/textanalysis/onlinemedia/<header:language>/<header:month>/<header:media>_<header:date>.json",
+                    "mode": "Overwrite"
+                }
+            }
+        },
+        "tofile1": {
+            "component": "com.sap.file.toFile",
+            "metadata": {
+                "label": "To File",
+                "x": 839.4999961853027,
+                "y": 229.99999976158142,
+                "height": 50,
+                "width": 50,
+                "config": {}
+            }
+        },
+        "scrapy2": {
+            "component": "textanalysis.scrapy",
+            "metadata": {
+                "label": "scrapy",
+                "x": 217.99999904632568,
+                "y": 242,
+                "height": 100,
+                "width": 120,
+                "extensible": true,
+                "config": {
+                    "spider": "Spiegel_spider,FAZ_spider, Sueddeutsche_spider",
+                    "scrapy_dir": "/home/textanalysis/onlinemedia",
+                    "debug_mode": true
+                }
+            }
+        },
+        "saphanaclient1": {
+            "component": "com.sap.hana.client2",
+            "metadata": {
+                "label": "SAP HANA Client",
+                "x": 1037.9999952316284,
+                "y": 343.4999997615814,
+                "height": 80,
+                "width": 120,
+                "config": {
+                    "connection": {
+                        "configurationType": "Configuration Manager",
+                        "connectionID": "EU_HANA"
+                    },
+                    "tableName": "\"DIPROJECTS\".\"DOC_METADATA\"",
+                    "tableColumns": [
+                        {
+                            "name": "TEXT_ID",
+                            "type": "BIGINT"
+                        },
+                        {
+                            "name": "DATE",
+                            "type": "DATE"
+                        },
+                        {
+                            "name": "MEDIA",
+                            "type": "NVARCHAR",
+                            "size": 50
+                        },
+                        {
+                            "name": "LANGUAGE",
+                            "type": "NVARCHAR",
+                            "size": 2
+                        },
+                        {
+                            "name": "URL",
+                            "type": "NVARCHAR",
+                            "size": 255
+                        },
+                        {
+                            "name": "RUBRIC",
+                            "type": "NVARCHAR",
+                            "size": 50
+                        },
+                        {
+                            "name": "TITLE",
+                            "type": "NVARCHAR",
+                            "size": 255
+                        },
+                        {
+                            "name": "NUM_CHARACTERS",
+                            "type": "BIGINT"
+                        }
+                    ],
+                    "csvHeader": "Use as schema",
+                    "initTable": "None",
+                    "insertMode": "UPSERT"
+                }
+            }
+        },
+        "gate2": {
+            "component": "sdi_utils_operators.gate",
+            "metadata": {
+                "label": "Gate",
+                "x": 1222.999994277954,
+                "y": 223.49999976158142,
+                "height": 80,
+                "width": 120,
+                "extensible": true,
+                "config": {
+                    "limit": 1000000000
+                }
+            }
+        },
+        "python3operator1": {
+            "component": "com.sap.system.python3Operator",
+            "metadata": {
+                "label": "AND Gate",
+                "x": 1439.9999933242798,
+                "y": 322,
+                "height": 80,
+                "width": 120,
+                "extensible": true,
+                "config": {
+                    "script": "\ndef on_input(data1, data2):\n    api.send(\"output\", 'end')\n\napi.set_port_callback([\"input1\", \"input2\"], on_input)\n\n"
+                },
+                "additionalinports": [
+                    {
+                        "name": "input1",
+                        "type": "any.*"
+                    },
+                    {
+                        "name": "input2",
+                        "type": "any.*"
+                    }
+                ],
+                "additionaloutports": [
+                    {
+                        "name": "output",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "gate1": {
+            "component": "sdi_utils_operators.gate",
+            "metadata": {
+                "label": "Gate",
+                "x": 1222.999994277954,
+                "y": 343.4999997615814,
+                "height": 80,
+                "width": 120,
+                "extensible": true,
+                "config": {
+                    "limit": 10000000
+                }
+            }
+        },
+        "graphterminator1": {
+            "component": "com.sap.util.graphTerminator",
+            "metadata": {
+                "label": "Graph Terminator",
+                "x": 1624.9999923706055,
+                "y": 312,
+                "height": 80,
+                "width": 120,
+                "config": {}
+            }
+        },
+        "writefile2": {
+            "component": "com.sap.file.write",
+            "metadata": {
+                "label": "Write File",
+                "x": 1908.9999914169312,
+                "y": 252,
+                "height": 80,
+                "width": 120,
+                "config": {
+                    "pathMode": "Static with placeholders",
+                    "connection": {
+                        "configurationType": "Connection Management",
+                        "connectionID": "S3_THH"
+                    },
+                    "path": "/textanalysis/onlinemedia/log/scrapy_<date>.log",
+                    "mode": "Append"
+                }
+            }
+        },
+        "tofile2": {
+            "component": "com.sap.file.toFile",
+            "metadata": {
+                "label": "To File",
+                "x": 1809.9999914169312,
+                "y": 267,
+                "height": 50,
+                "width": 50,
+                "config": {}
+            }
+        },
+        "dftocsv1": {
+            "component": "sdi_utils_operators.df_csv",
+            "metadata": {
+                "label": "df to csv",
+                "x": 804.9999961853027,
+                "y": 319.9999997615814,
+                "height": 80,
+                "width": 120,
+                "extensible": true,
+                "config": {}
+            }
+        },
+        "dftojson1": {
+            "component": "sdi_utils_operators.df_json",
+            "metadata": {
+                "label": "df to json",
+                "x": 587.999997138977,
+                "y": 252,
+                "height": 80,
+                "width": 120,
+                "extensible": true,
+                "config": {
+                    "debug_mode": true
+                }
+            }
+        },
+        "51multiplexer1": {
+            "component": "com.sap.system.multiplexer.5-1",
+            "metadata": {
+                "label": "5:1 Multiplexer",
+                "x": 1439.9999933242798,
+                "y": 182,
+                "height": 100,
+                "width": 120,
+                "extensible": true,
+                "config": {}
+            }
+        }
+    },
+    "groups": [],
+    "connections": [
+        {
+            "metadata": {
+                "points": "893.4999961853027,254.99999976158142 1004.9999957084656,254.99999976158142 1004.9999957084656,263.4999997615814 1032.9999952316284,263.4999997615814"
+            },
+            "src": {
+                "port": "file",
+                "process": "tofile1"
+            },
+            "tgt": {
+                "port": "file",
+                "process": "writefile1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "141,43 184.99999952316284,43 184.99999952316284,256 212.99999904632568,256"
+            },
+            "src": {
+                "port": "file",
+                "process": "readfile1"
+            },
+            "tgt": {
+                "port": "spider",
+                "process": "scrapy2"
+            }
+        },
+        {
+            "metadata": {
+                "points": "141,163 168.99999952316284,163 168.99999952316284,274 212.99999904632568,274"
+            },
+            "src": {
+                "port": "file",
+                "process": "readfile2"
+            },
+            "tgt": {
+                "port": "pipelines",
+                "process": "scrapy2"
+            }
+        },
+        {
+            "metadata": {
+                "points": "141,283 168.99999952316284,283 168.99999952316284,292 212.99999904632568,292"
+            },
+            "src": {
+                "port": "file",
+                "process": "readfile3"
+            },
+            "tgt": {
+                "port": "items",
+                "process": "scrapy2"
+            }
+        },
+        {
+            "metadata": {
+                "points": "141,403 168.99999952316284,403 168.99999952316284,310 212.99999904632568,310"
+            },
+            "src": {
+                "port": "file",
+                "process": "readfile4"
+            },
+            "tgt": {
+                "port": "middlewares",
+                "process": "scrapy2"
+            }
+        },
+        {
+            "metadata": {
+                "points": "141,523 184.99999952316284,523 184.99999952316284,328 212.99999904632568,328"
+            },
+            "src": {
+                "port": "file",
+                "process": "readfile5"
+            },
+            "tgt": {
+                "port": "settings",
+                "process": "scrapy2"
+            }
+        },
+        {
+            "metadata": {
+                "points": "341.9999990463257,301 369.9999985694885,301 369.9999985694885,315.4999997615814 397.99999809265137,315.4999997615814"
+            },
+            "src": {
+                "port": "data",
+                "process": "scrapy2"
+            },
+            "tgt": {
+                "port": "input1",
+                "process": "12multiplexer1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "1161.9999952316284,254.49999976158142 1189.9999947547913,254.49999976158142 1189.9999947547913,281.4999997615814 1217.999994277954,281.4999997615814"
+            },
+            "src": {
+                "port": "file",
+                "process": "writefile1"
+            },
+            "tgt": {
+                "port": "data",
+                "process": "gate2"
+            }
+        },
+        {
+            "metadata": {
+                "points": "1161.9999952316284,383.4999997615814 1189.9999947547913,383.4999997615814 1189.9999947547913,401.4999997615814 1217.999994277954,401.4999997615814"
+            },
+            "src": {
+                "port": "result",
+                "process": "saphanaclient1"
+            },
+            "tgt": {
+                "port": "data",
+                "process": "gate1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "1563.9999933242798,362 1591.9999928474426,362 1591.9999928474426,352 1619.9999923706055,352"
+            },
+            "src": {
+                "port": "output",
+                "process": "python3operator1"
+            },
+            "tgt": {
+                "port": "stop",
+                "process": "graphterminator1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "1346.999994277954,383.4999997615814 1374.999993801117,383.4999997615814 1374.999993801117,371 1434.9999933242798,371"
+            },
+            "src": {
+                "port": "trigger",
+                "process": "gate1"
+            },
+            "tgt": {
+                "port": "input2",
+                "process": "python3operator1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "1346.999994277954,263.4999997615814 1374.999993801117,263.4999997615814 1374.999993801117,353 1434.9999933242798,353"
+            },
+            "src": {
+                "port": "trigger",
+                "process": "gate2"
+            },
+            "tgt": {
+                "port": "input1",
+                "process": "python3operator1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "1748.9999923706055,232 1776.9999918937683,232 1776.9999918937683,301 1804.9999914169312,301"
+            },
+            "src": {
+                "port": "out",
+                "process": "wiretap1"
+            },
+            "tgt": {
+                "port": "in",
+                "process": "tofile2"
+            }
+        },
+        {
+            "metadata": {
+                "points": "1863.9999914169312,292 1903.9999914169312,292"
+            },
+            "src": {
+                "port": "file",
+                "process": "tofile2"
+            },
+            "tgt": {
+                "port": "file",
+                "process": "writefile2"
+            }
+        },
+        {
+            "metadata": {
+                "points": "526.9999980926514,315.4999997615814 554.9999976158142,315.4999997615814 554.9999976158142,359.99999952316284 799.9999961853027,359.9999997615814"
+            },
+            "src": {
+                "port": "out2",
+                "process": "12multiplexer1"
+            },
+            "tgt": {
+                "port": "data",
+                "process": "dftocsv1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "928.9999961853027,368.9999997615814 956.9999957084656,368.9999997615814 956.9999957084656,392.4999997615814 1032.9999952316284,392.4999997615814"
+            },
+            "src": {
+                "port": "csv",
+                "process": "dftocsv1"
+            },
+            "tgt": {
+                "port": "data",
+                "process": "saphanaclient1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "526.9999980926514,297.4999997615814 554.9999976158142,297.4999997615814 554.9999976158142,292 582.999997138977,292"
+            },
+            "src": {
+                "port": "out1",
+                "process": "12multiplexer1"
+            },
+            "tgt": {
+                "port": "data",
+                "process": "dftojson1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "711.999997138977,301 771.9999966621399,301 771.9999966621399,263.9999997615814 834.4999961853027,263.9999997615814"
+            },
+            "src": {
+                "port": "json",
+                "process": "dftojson1"
+            },
+            "tgt": {
+                "port": "in",
+                "process": "tofile1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "341.9999990463257,283 369.9999985694885,283 369.9999985694885,237.50000023841858 554.9999976158142,237.50000023841858 554.9999976158142,223.00000047683716 739.9999966621399,223.00000047683716 739.9999966621399,184.00000023841858 956.9999957084656,184.00000023841858 956.9999957084656,160.50000023841858 1406.999993801117,160.50000023841858 1406.999993801117,196 1434.9999933242798,196"
+            },
+            "src": {
+                "port": "log",
+                "process": "scrapy2"
+            },
+            "tgt": {
+                "port": "in1",
+                "process": "51multiplexer1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "711.999997138977,283 755.9999966621399,283 755.9999966621399,201.00000023841858 972.9999957084656,201.00000023841858 972.9999957084656,177.50000023841858 1390.999993801117,177.50000023841858 1390.999993801117,214 1434.9999933242798,214"
+            },
+            "src": {
+                "port": "log",
+                "process": "dftojson1"
+            },
+            "tgt": {
+                "port": "in2",
+                "process": "51multiplexer1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "928.9999961853027,350.9999997615814 988.9999957084656,350.9999997615814 988.9999957084656,194.50000023841858 1374.999993801117,194.50000023841858 1374.999993801117,232 1434.9999933242798,232"
+            },
+            "src": {
+                "port": "log",
+                "process": "dftocsv1"
+            },
+            "tgt": {
+                "port": "in3",
+                "process": "51multiplexer1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "1346.999994277954,365.4999997615814 1390.999993801117,365.4999997615814 1390.999993801117,250 1434.9999933242798,250"
+            },
+            "src": {
+                "port": "log",
+                "process": "gate1"
+            },
+            "tgt": {
+                "port": "in4",
+                "process": "51multiplexer1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "1346.999994277954,245.49999976158142 1406.999993801117,245.49999976158142 1406.999993801117,268 1434.9999933242798,268"
+            },
+            "src": {
+                "port": "log",
+                "process": "gate2"
+            },
+            "tgt": {
+                "port": "in5",
+                "process": "51multiplexer1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "1563.9999933242798,232 1619.9999923706055,232"
+            },
+            "src": {
+                "port": "out1",
+                "process": "51multiplexer1"
+            },
+            "tgt": {
+                "port": "in",
+                "process": "wiretap1"
+            }
+        }
+    ],
+    "inports": {},
+    "outports": {}
+}
